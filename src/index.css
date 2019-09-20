@@ -1,0 +1,71 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.navbar {
+  margin-top: 40px;
+}
+
+
+.card-win {
+  background-color: #5AD674!important;
+}
+.card-draw {
+  background-color: #EBE778!important;
+}
+.card-loss {
+  background-color: #FA5C62!important;
+}
+
+.ui.card, .ui-card {
+  min-height: 200px;
+  cursor: pointer;
+  transition: all 250ms ease-in-out;
+}
+
+.ui.card.active, .ui-card.active {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%!important;
+  cursor: default;
+}
+
+.ui-card {
+  border-radius: 5px;
+}
+
+.column {
+  transition: all 250ms ease-in-out;
+}
+
+.grid-active {
+  width: 100%!important;
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.card, .ui-card {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .ui.card > .content, .ui-card > .content {
+    flex-grow: inherit;
+  }
+}
+
+
+.ellipse-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

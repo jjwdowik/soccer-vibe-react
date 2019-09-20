@@ -1,0 +1,135 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.spin {
+  animation: spin infinite 5s linear;
+}
+
+.pulse {
+  animation: pulse 1s infinite;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.opacityPulse {
+  animation: opacityPulse .5s infinite;
+  -webkit-animation-name: opacityPulse;
+  animation-name: opacityPulse;
+}
+
+.remove-link {
+  text-decoration: none;
+}
+
+.card-wrapper {
+  color: #1d1d1d;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(3);
+  }
+  100% {
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes opacityPulse {
+  0% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.page-fade-enter {
+  opacity: 0;
+  position: absolute!important;
+  width: 100%;
+}
+
+.page-fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-out 50ms;
+}
+
+.page-fade-exit {
+  opacity: 1;
+  position: absolute!important;
+  width: 100%;
+}
+
+.page-fade-exit-active {
+  opacity: 0;
+  position: absolute!important;
+  transition: opacity 100ms ease-out 50ms;
+}
+
+.page-fade-enter-done {
+  opacity: 1;
+}
+
+
+.card-animation-wrapper {
+  transition: all .1s ease-in-out;
+}
+.card-animation-wrapper:hover {
+  transform: scale(1.1);
+}
+
