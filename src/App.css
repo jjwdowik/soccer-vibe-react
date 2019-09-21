@@ -26,6 +26,10 @@
   animation: pulse 1s infinite;
 }
 
+.sm-pulse {
+  animation: sm-pulse 1s infinite;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -80,6 +84,18 @@
   }
   50% {
     transform: scale(3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes sm-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);

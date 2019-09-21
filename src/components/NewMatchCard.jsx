@@ -25,6 +25,9 @@ class NewMatchCard extends Component {
     let awayScore = match.data.score.fullTime.awayTeam;
     let showTwitterLogo = match.twitter_hashtag !== null;
     cardClass += " ui-card";
+    console.log("what is start time...")
+    console.log(match.start_time);
+    console.log(moment(match.start_time).format('M/D/YYYY @ h:mm:ss a'))
     return (
       <React.Fragment>
         <MediaQuery minWidth={700}>

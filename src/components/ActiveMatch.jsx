@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import moment from 'moment';
 import { createCardClass } from '../utils';
 import styled from 'styled-components';
 import { space } from 'styled-system';

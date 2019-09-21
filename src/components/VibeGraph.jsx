@@ -51,13 +51,18 @@ class VibeGraph extends Component {
     trackerTime: null,
     markerMode: "point",
     timeSeries: false,
-    timeSeriesRange: null
+    timeSeriesRange: null,
+    noVibeStates: false
   };
 
   componentDidMount() {
     setTimeout(() => {
-      let temperatureSeries =  this.temperatureSeries();
-      this.setState({timeSeries: temperatureSeries, timeSeriesRange: temperatureSeries.range()})
+      if(this.props.match_vibe_data.match_twitter_vibes.length > 0) {
+        let temperatureSeries =  this.temperatureSeries();
+        this.setState({timeSeries: temperatureSeries, timeSeriesRange: temperatureSeries.range()})
+      } else {
+        this.setState({noVibeStates: true});
+      }
     }, 2000);
   }
 
@@ -250,9 +255,16 @@ class VibeGraph extends Component {
         }
         {!showGraph &&
           <div style={{width: '100%'}}>
-            <div className="spin" style={logoWrapper}>
-              <img className="pulse" src="/fc_barcelona_crest_transparent.png" width="100px" />
-            </div>
+            {this.state.noVibeStates &&
+              <div className="sm-pulse" style={logoWrapper}>
+                <div>No Stats yet, come back soon!</div>
+              </div>
+            }
+            {!this.state.noVibeStates &&
+              <div className="spin" style={logoWrapper}>
+                <img className="pulse" src="/fc_barcelona_crest_transparent.png" width="100px" />
+              </div>
+            }
             <img style={graphPreview} src="/graph_preview.png" width="100%"/>
           </div>
         }
