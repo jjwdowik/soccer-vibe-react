@@ -3,7 +3,7 @@ import VibeCard from './VibeCard';
 import LeftAlignedMatchData from './LeftAlignedMatchData';
 import CenterAlignedMatchData from './CenterAlignedMatchData';
 import SmallMatchData from './SmallMatchData';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { Card, Heading, Text, Flex } from 'rebass';
 import styled from 'styled-components';
 import { space } from 'styled-system';
@@ -24,10 +24,8 @@ class NewMatchCard extends Component {
     let homeScore = match.data.score.fullTime.homeTeam;
     let awayScore = match.data.score.fullTime.awayTeam;
     let showTwitterLogo = match.twitter_hashtag !== null;
+    let startTimeFormatted = moment(match.start_time).format('M/D/YYYY @ h:mm:ss a') + " " + moment().tz(moment.tz.guess()).format('z');
     cardClass += " ui-card";
-    console.log("what is start time...")
-    console.log(match.start_time);
-    console.log(moment(match.start_time).format('M/D/YYYY @ h:mm:ss a'))
     return (
       <React.Fragment>
         <MediaQuery minWidth={700}>
@@ -47,7 +45,7 @@ class NewMatchCard extends Component {
               awayTeam={match.away_team}
               homeScore={homeScore}
               homeTeam={match.home_team}
-              startTime={moment(match.start_time).format('M/D/YYYY @ h:mm:ss a')}
+              startTime={startTimeFormatted}
               isActive={isActive}
               homeTeamData={homeTeamData}
               awayTeamData={awayTeamData}
