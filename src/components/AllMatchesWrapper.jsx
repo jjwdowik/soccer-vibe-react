@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { createCardClass } from '../utils';
 import NewMatchCard from './NewMatchCard';
+import MatchLoader from './MatchLoader';
 import { Box } from 'rebass';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
@@ -57,6 +58,7 @@ class AllMatchesWrapper extends Component {
 
   render() {
     let { matches, teamId, activeNavbarValue, teamsByExternalId } = this.props;
+    let matchesLength = matches.length;
     matches = this.filterMatches(matches, activeNavbarValue);
     return (
       <React.Fragment>
@@ -66,6 +68,9 @@ class AllMatchesWrapper extends Component {
             this.renderMatch(cardClass, matchData, teamsByExternalId, index)
           )
         })}
+        {matchesLength == 0 &&
+          <MatchLoader />
+        }
       </React.Fragment>
     );
   }
