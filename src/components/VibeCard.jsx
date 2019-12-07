@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Button, Flex, Box } from 'rebass';
-import { getAPIAuthToken, getBaseURL, getVibeColor, getVibeEmoji } from '../utils';
+import { getAPIAuthToken, getBaseURL, getVibeColor, getVibeEmoji, getPusherKey } from '../utils';
 import VibeGraph from './VibeGraph';
 import VibeTweets from './VibeTweets';
 import styled from 'styled-components';
@@ -32,7 +32,7 @@ const graphPreview = {
   imageRendering: "pixelated"
 }
 
-const pusher = new Pusher('5541cc9fe4a53edbb3d2', {
+const pusher = new Pusher(getPusherKey(), {
   cluster: 'us2',
   forceTLS: true
 });

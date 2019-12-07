@@ -16,6 +16,14 @@ export const getBaseURL = () => {
   }
 }
 
+export const getPusherKey = () => {
+  if(process.env.NODE_ENV !== 'production') {
+    return "5541cc9fe4a53edbb3d2"
+  } else {
+    return "420e1816823dfa6596d2"
+  }  
+}
+
 export const createCardClass = (match, team_id, isActive) => {
   let cardClass = "card-not-played";
   let barcelona_side_id = match.home_team_external_id == team_id ? match.home_team_external_id : match.away_team_external_id;
