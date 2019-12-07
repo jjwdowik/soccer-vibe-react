@@ -50,6 +50,7 @@ class NewMatchCard extends Component {
               homeTeamData={homeTeamData}
               awayTeamData={awayTeamData}
               showTwitterLogo={showTwitterLogo}
+              twitterHashtag={match.twitter_hashtag}
             />
             {(isActive && showTwitterLogo) &&
               <div>
@@ -80,6 +81,7 @@ class NewMatchCard extends Component {
               homeTeamData={homeTeamData}
               awayTeamData={awayTeamData}
               showTwitterLogo={showTwitterLogo}
+              twitterHashtag={match.twitter_hashtag}
             />
             {(isActive && showTwitterLogo) &&
               <div>

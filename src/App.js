@@ -9,7 +9,7 @@ import Navbar from './components/Navbar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import theme from './theme';
-import styled, { ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components';
 
 import { BrowserRouter as Router, Route, Link, Switch, withRouter } from "react-router-dom";
 import {

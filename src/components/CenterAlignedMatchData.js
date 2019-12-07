@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { space, typography } from 'styled-system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter } from '@fortawesome/fontawesome-free-brands';
+import { white } from 'ansi-colors';
 
 const TeamNameSpacer = styled.div`
   ${space}
@@ -15,6 +16,10 @@ const NumberStat = styled.span`
   ${typography}
   flex: 1 1 auto;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+`
+
+const SpanSpacer = styled.span`
+  ${space}
 `
 
 const LogoImg = styled.img`
@@ -40,7 +45,8 @@ class CenterAlignedMatchData extends Component {
       isActive,
       homeTeamData,
       awayTeamData,
-      showTwitterLogo
+      showTwitterLogo,
+      twitterHashtag
     } = this.props;
     let standardFontSize = isActive ? [6] : [ 4, 5 ];
     let teamFontSize = isActive ? [4] : [1];
@@ -49,6 +55,7 @@ class CenterAlignedMatchData extends Component {
         <MatchDataHeader
           showTwitterLogo={showTwitterLogo}
           startTime={startTime}
+          twitterHashtag={twitterHashtag}
         />
         <Flex p={3}>
           <Box width="45%" style={boxStyles}>
@@ -72,10 +79,10 @@ class CenterAlignedMatchData extends Component {
           </Box>
         </Flex>
         <Flex px={3}>
-          <Box width="50%" style={{textAlign:"left"}}>
+          <Box width={1/2} style={{textAlign:"left"}}>
             <TeamNameSpacer fontSize={teamFontSize}>{awayTeam}</TeamNameSpacer>
           </Box>
-          <Box width="50%" style={{textAlign:"right"}}>
+          <Box width={1/2} style={{textAlign:"right"}}>
             <TeamNameSpacer fontSize={teamFontSize}>{homeTeam}</TeamNameSpacer>
           </Box>
         </Flex>

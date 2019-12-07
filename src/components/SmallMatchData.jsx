@@ -34,13 +34,15 @@ class SmallMatchData extends Component {
       startTime,
       awayTeamData,
       homeTeamData,
-      showTwitterLogo
+      showTwitterLogo,
+      twitterHashtag
     } = this.props;
     return (
       <React.Fragment>
         <MatchDataHeader
           showTwitterLogo={showTwitterLogo}
           startTime={startTime}
+          twitterHashtag={twitterHashtag}
         />
         <Flex p={3}>
           <Box width="45%" style={{display: "flex"}}>

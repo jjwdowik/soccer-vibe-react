@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import { Flex } from 'rebass';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter } from '@fortawesome/fontawesome-free-brands';
+import { space, typography } from 'styled-system';
+import styled from 'styled-components';
+
+const SpanSpacer = styled.span`
+  ${space}
+`
 
 class MatchDataHeader extends Component {
 
   render() {
-    let { showTwitterLogo, startTime } = this.props;
+    let { showTwitterLogo, startTime, twitterHashtag } = this.props;
     return (
       <Flex
         style={{
@@ -18,7 +24,10 @@ class MatchDataHeader extends Component {
         <div>{startTime}</div>
         {showTwitterLogo &&
           <div style={{marginLeft: "auto"}}>
-            <FontAwesomeIcon icon={faTwitter} size="1x" />
+            <SpanSpacer pr={2}>
+              {twitterHashtag}
+            </SpanSpacer>                 
+            <FontAwesomeIcon icon={faTwitter} size="1x" color="#1da1f2" />
           </div>
         }
       </Flex>

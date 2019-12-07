@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Button } from 'rebass';
-import { getAPIAuthToken, getBaseURL } from '../utils';
+import { Button, Flex, Box } from 'rebass';
+import { getAPIAuthToken, getBaseURL, getVibeColor, getVibeEmoji } from '../utils';
 import VibeGraph from './VibeGraph';
+import VibeTweets from './VibeTweets';
 import styled from 'styled-components';
 import { space } from 'styled-system';
+import Pusher from 'pusher-js';
+import AnimatedNumber from 'animated-number-react';
+
 
 const VibeWrapperDiv = styled.div`
   ${space}
@@ -16,35 +20,71 @@ const VibeWrapperDiv = styled.div`
 const DivSpacer = styled.div`
   ${space}
 `
+const SpanSpacer = styled.span`
+  ${space}
+`
+const EmojiWrapper = styled.span`
+  ${space}
+  vertical-align: middle;
+`
 
 const graphPreview = {
   imageRendering: "pixelated"
 }
+
+const pusher = new Pusher('5541cc9fe4a53edbb3d2', {
+  cluster: 'us2',
+  forceTLS: true
+});
+
 class VibeCard extends Component {
 
   constructor(props) {
     super(props);
     this.hashtagRef = React.createRef();
     this.submitHashtag = this.submitHashtag.bind(this);
-    this.state = {hashtag: this.props.match.twitter_hashtag, match_vibe_data: false};
+    this.fetchVibes = this.fetchVibes.bind(this);
+    this.state = {
+      hashtag: this.props.match.twitter_hashtag, 
+      match_vibe_data: false,
+      averageScore: 0,
+      startId: false,
+      endId: false,
+      newIdStart: false
+    };
   }
 
   componentDidMount() {
     if(this.props.match.twitter_hashtag) {
-      let instance = axios.create({
-      baseURL: getBaseURL(),
-        timeout: 20000,
-        headers: {'X-API-Auth-Token': getAPIAuthToken()}
+      this.fetchVibes();
+      const channel = pusher.subscribe('soccer-vibe');
+      let that = this;
+      channel.bind('new-vibes', function(data) {
+        that.fetchVibes(data.start_id, data.end_id);
       });
-      var self = this;
-      instance.get('/match_twitter_vibes?match_id='+this.props.match.id)
-        .then(function (response) {
-          self.setState({match_vibe_data: response.data});
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
     }
+  }
+
+  fetchVibes(startId = false, endId = false) {
+    let instance = axios.create({
+    baseURL: getBaseURL(),
+      timeout: 20000,
+      headers: {'X-API-Auth-Token': getAPIAuthToken()}
+    });
+    var self = this;
+    instance.get('/match_twitter_vibes?match_id='+this.props.match.id)
+      .then(function (response) {
+        self.setState({
+          match_vibe_data: response.data,
+          averageScore: response.data.average_score,
+          startId: startId,
+          endId: endId,
+          newIdStart: self.state.newIdStart || startId
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   submitHashtag() {
@@ -65,37 +105,46 @@ class VibeCard extends Component {
       });
   }
 
+
   render() {
     let hashtag = this.state.hashtag;
     let match_vibe_data = this.state.match_vibe_data;
+    let averageScore = this.state.averageScore;
     let hashtagExists = hashtag !== undefined && hashtag !== null;
-    var divStyle = {
-      fontSize: '24px',
-      color: 'white',
-      backgroundColor: 'black',
-      padding: '16px',
-    }
-    var inputStyle = {
-      width: '230px',
-      height: '40px',
-      fontSize: '.8em',
-      marginRight: '8px',
-    }
-    var divWrapper = {
-      display: 'flex',
-      justifyContent: 'center',
-      marginTop: '16px',
-    }
+    let color = getVibeColor(match_vibe_data.average_score, "white");
+    let emoji = getVibeEmoji(match_vibe_data.average_score);
+    const trackerValueStyle = {
+      color: color,
+      transition: 'all 1s ease-out',
+    }    
+    console.log("COMING IN HOT")
+    console.log(averageScore)
     return (
       <VibeWrapperDiv mt={4}>
         {hashtagExists &&
           <div>
-            <div>Current tracked hashtag: {hashtag}</div>
+            <Box textAlign="center" fontSize={6}>
+              <EmojiWrapper>{emoji}</EmojiWrapper>
+              <SpanSpacer ml={2} style={trackerValueStyle}>
+                <AnimatedNumber
+                  duration={1000}
+                  value={averageScore}
+                  formatValue={n => parseFloat(n).toFixed(2)}
+                />
+              </SpanSpacer>
+            </Box>
             {match_vibe_data &&
-              <div style={{ marginTop: '16px'}}>
-                <h4>Overall Vibe is: {match_vibe_data.average_score}</h4>
-                <VibeGraph match_vibe_data={match_vibe_data} />
-              </div>
+              <React.Fragment>
+                <div style={{ marginTop: '16px'}}>
+                  <VibeGraph match_vibe_data={match_vibe_data} />
+                </div>
+                <div style={{ marginTop: '16px'}}>
+                  <VibeTweets 
+                    match_vibe_data={match_vibe_data} 
+                    newIdStart={this.state.newIdStart}
+                  />
+                </div> 
+              </React.Fragment>             
             }
           </div>
         }

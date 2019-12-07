@@ -22,6 +22,8 @@ import {
   Resizable
 } from "react-timeseries-charts";
 
+import { getVibeColor } from '../utils';
+
 //
 // Styles
 //
@@ -38,12 +40,44 @@ const bandStyle = styler([{ key: "score", color: "blue", width: 1, opacity: 0.5 
 const style = styler([
   { key: "score", color: "#4f91f9", width: 1 },
 ]);
+const tweetStyle = {
+  display: "flex",
+  alignItems: "center",
+  lineHeight: "1.3",
+  color: "black",
+  backgroundColor: "white",
+  padding: "16px",
+  minHeight: "200px"
+}
+const marginAutoStyle = {
+  marginLeft: "auto",
+  marginRight: "auto"
+}
+const graphPreview = {
+  imageRendering: "pixelated"
+}
+const logoWrapper = {
+  textAlign: "center",
+  position: "absolute",
+  width: "100%",
+  marginLeft: "auto",
+  marginRight: "auto",
+  left: "0",
+  right: "0",
+  marginTop: "100px"
+}
 
 const NullMarker = props => {
   return <g />;
 };
 
 class VibeGraph extends Component {
+
+  constructor(props) {
+    super(props);
+    this.drawGraphFromProps = this.drawGraphFromProps.bind(this);
+  }
+
   state = {
     trackerValue: null,
     trackerEvent: null,
@@ -57,13 +91,27 @@ class VibeGraph extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      if(this.props.match_vibe_data.match_twitter_vibes.length > 0) {
-        let temperatureSeries =  this.temperatureSeries();
-        this.setState({timeSeries: temperatureSeries, timeSeriesRange: temperatureSeries.range()})
-      } else {
-        this.setState({noVibeStates: true});
-      }
+      this.drawGraphFromProps();
     }, 2000);
+  }
+
+  componentDidUpdate(prevProps) {
+    // redraw graph
+    console.log("componentDidUpdate")
+    console.log(this.props.match_vibe_data.match_twitter_vibes.length)
+    console.log(prevProps.match_vibe_data.match_twitter_vibes.length)
+    if(this.props.match_vibe_data.match_twitter_vibes.length !== prevProps.match_vibe_data.match_twitter_vibes.length) {
+      this.drawGraphFromProps();
+    }
+  }
+
+  drawGraphFromProps() {
+    if(this.props.match_vibe_data.match_twitter_vibes.length > 0) {
+      let temperatureSeries =  this.temperatureSeries();
+      this.setState({timeSeries: temperatureSeries, timeSeriesRange: temperatureSeries.range()})
+    } else {
+      this.setState({noVibeStates: true});
+    }
   }
 
   temperatureSeries() {
@@ -188,41 +236,8 @@ class VibeGraph extends Component {
   };
 
   render() {
-    const tweetStyle = {
-      display: "flex",
-      alignItems: "center",
-      lineHeight: "1.3",
-      color: "black",
-      backgroundColor: "white",
-      padding: "16px",
-      minHeight: "200px"
-    }
-    const marginAutoStyle = {
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-    const graphPreview = {
-      imageRendering: "pixelated"
-    }
-    const logoWrapper = {
-      textAlign: "center",
-      position: "absolute",
-      width: "100%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      left: "0",
-      right: "0",
-      marginTop: "100px"
-    }
     let showGraph = this.state.timeSeries;
-    let color = "black";
-    if(this.state.trackerValue) {
-      if(this.state.trackerValue.indexOf('+') != -1) {
-        color = "#5AD674"
-      } else if(this.state.trackerValue.indexOf('-') != -1) {
-        color = "#FA5C62"
-      }
-    }
+    let color = getVibeColor(this.state.trackerValue, "black");
     const trackerValueStyle = {
       color: color
     }

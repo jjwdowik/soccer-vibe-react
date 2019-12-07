@@ -34,3 +34,35 @@ export const createCardClass = (match, team_id, isActive) => {
 export const formatTeamsByExternalId = (teams) => {
   return keyBy(teams, 'external_id');
 }
+
+export const getVibeColor = (value, defaultColor) => {
+  let color = defaultColor;
+  if(value != 0) {
+    if(value > 0) {
+      color = "#5AD674"
+    } else if(value < 0) {
+      color = "#FA5C62"
+    }
+  }  
+  return color;
+}
+export const getVibeEmoji = (value) => {
+  let emoji = "😐";
+  if(value != 0) {
+    if(value > 0) {
+      emoji = "😀";
+      if(value > 0.5) {
+        emoji += "💪";
+      }
+    } else if(value < 0) {
+      emoji = "🙁";
+      if(value < -0.5) {
+        emoji = "🥺";
+      }
+      if(value < -0.7) {
+        emoji = "🤬";
+      }
+    }
+  }  
+  return emoji;
+}
